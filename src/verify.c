@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.c                                           :+:      :+:    :+:   */
+/*   verify.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aganesh <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,42 +12,54 @@
 
 #include "../includes/lem_in.h"
 
-int		main(int ac, char **av)
+void	verify(t_env *env)
 {
-	t_env	*env;
-	char	**lines;
+	t_list	*rm;
+	t_list	*a;
+	t_list	*b;
 
-	env = (t_env *)ft_memalloc(sizeof(t_env));
-	if (ac != 2)
+	if (!env->start || !env->end)
 		put_error();
-	parse_lines(env);
-	verify(env);
-	solver(env);
-}
-
-void 	solver(t_env *env)
-{
-	t_room	*s;
-	t_list	*cl;
-
-	if (!env->end || !env->start)
-		put_error();
-	s = env->start;
-	cl = s->links;
-
-}
-
-t_list		lem_in(t_env *env, t_link *curr)
-{
-	t_list	*tmp;
-
-	if (!curr)
-		return (NULL);
-	if (!seen)
-		seen = ft_lstnew();
-	tmp = curr->links;
-	while (tmp)
+	rm = env->rooms;
+	while (rm)
 	{
-		if (*(t_room **)tmp)
+		a = (t_room *)rm->content->links;
+		while (a)
+		{
+			b = (t_room *)rm->content->links;
+			while (b)
+			{
+				if (a != b && ft_strequ((t_room *)a->content->name,
+				 (t_room *)b->content->name)
+				 	put_error();
+				b = b->next;
+			}
+			a = a->next;
+		}
+		rm = rm->next;
+	}
+}
+
+void 	check_rooms(t_env *env)
+{
+	t_list	*a;
+	t_list	*b;
+
+	a = env->rooms;
+	while (a)
+	{
+		b = env->rooms;
+		while (b)
+		{
+			if (a == b)
+			{
+				b = b->next;
+				continue;
+			}
+			if (ft_strcmp(a->content->name, b->content->name) != 0)
+				put_error();
+			b = b->next;
+		}
+		a = a->next;
 	}
 }

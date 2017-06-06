@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.c                                           :+:      :+:    :+:   */
+/*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aganesh <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,42 +12,50 @@
 
 #include "../includes/lem_in.h"
 
-int		main(int ac, char **av)
+void	put_error()
 {
-	t_env	*env;
-	char	**lines;
-
-	env = (t_env *)ft_memalloc(sizeof(t_env));
-	if (ac != 2)
-		put_error();
-	parse_lines(env);
-	verify(env);
-	solver(env);
+	ft_putstr("Error\n");
+	exit (0);
 }
 
-void 	solver(t_env *env)
+ssize_t		ft_max_atoi(char *str)
 {
-	t_room	*s;
-	t_list	*cl;
+	size_t	num;
+	int		sign;
+	int		p;
 
-	if (!env->end || !env->start)
-		put_error();
-	s = env->start;
-	cl = s->links;
-
-}
-
-t_list		lem_in(t_env *env, t_link *curr)
-{
-	t_list	*tmp;
-
-	if (!curr)
-		return (NULL);
-	if (!seen)
-		seen = ft_lstnew();
-	tmp = curr->links;
-	while (tmp)
+	num = 0;
+	sign = 1;
+	p = 0;
+	while (space(*str))
+		str++;
+	if (str[p] == '-')
 	{
-		if (*(t_room **)tmp)
+		sign = -1;
+		p++;
 	}
+	else if (str[p] == '+')
+		p++;
+	while ((str[p] >= '0') && (str[p] <= '9'))
+	{
+		num = num * 10 + (str[p] - '0');
+		p++;
+	}
+	num = num * sign;
+	return (num);
+}
+
+int     valid_int(char *str)
+{
+	if (ft_max_atoi(str) > INT_MAX || ft_max_atoi(str) < INT_MIN)
+		return (0);
+	if (*str == '-')
+		str++;
+	while (*str != 0)
+	{
+		if (*str < '0' || *str > '9')
+			return (0);
+		str++;
+	}
+	return (1);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.c                                           :+:      :+:    :+:   */
+/*   create_room.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aganesh <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,42 +12,27 @@
 
 #include "../includes/lem_in.h"
 
-int		main(int ac, char **av)
+void	create_room(t_env *env, int *start, int *end, char **details)
 {
-	t_env	*env;
-	char	**lines;
+	t_room	*temp;
 
-	env = (t_env *)ft_memalloc(sizeof(t_env));
-	if (ac != 2)
-		put_error();
-	parse_lines(env);
-	verify(env);
-	solver(env);
-}
-
-void 	solver(t_env *env)
-{
-	t_room	*s;
-	t_list	*cl;
-
-	if (!env->end || !env->start)
-		put_error();
-	s = env->start;
-	cl = s->links;
-
-}
-
-t_list		lem_in(t_env *env, t_link *curr)
-{
-	t_list	*tmp;
-
-	if (!curr)
-		return (NULL);
-	if (!seen)
-		seen = ft_lstnew();
-	tmp = curr->links;
-	while (tmp)
+	temp = (t_room *)ft_memalloc(sizeof(t_room));
+	temp->name = ft_strdup(details[0]);
+	temp->x = ft_atoi(details[1]);
+	temp->y = ft_atoi(details[2]);
+	ft_lstadd(&env->rooms, ft_lstnew(&room, sizeof(t_room *)));
+	if (*start == 1)
 	{
-		if (*(t_room **)tmp)
+		if (env->start)
+			put_error();
+		env->start = room;
+		*start = 0;
+	}
+	else if (*end == 1)
+	{
+		if (env->start)
+			put_error();
+		env->start = room;
+		*end = 0;
 	}
 }

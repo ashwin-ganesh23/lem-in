@@ -23,6 +23,8 @@ typedef	struct	s_env
 	t_room	*end;
 	t_list	*rooms;
 	t_list	*path;
+	t_list	*seen;
+
 }				t_env;
 
 #endif
